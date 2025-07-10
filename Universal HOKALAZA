@@ -1,4 +1,67 @@
-if game.CoreGui:FindFirstChild("hokalaza") then
+local HttpService = game:GetService("HttpService")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+local KEY = "crazyuniversal" -- Your Key
+local DiscordLink = "https://discord.gg/4myWDtW8yj" -- Discord
+
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "KeySystem"
+ScreenGui.Parent = game:GetService("CoreGui")
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+local Frame = Instance.new("Frame")
+Frame.Parent = ScreenGui
+Frame.Size = UDim2.new(0, 300, 0, 150)
+Frame.Position = UDim2.new(0.5, -150, 0.5, -75)
+Frame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+Frame.BorderSizePixel = 0
+
+local UICorner = Instance.new("UICorner", Frame)
+UICorner.CornerRadius = UDim.new(0, 10)
+
+local Title = Instance.new("TextLabel")
+Title.Parent = Frame
+Title.Size = UDim2.new(1, 0, 0, 30)
+Title.BackgroundTransparency = 1
+Title.Font = Enum.Font.SourceSansBold
+Title.Text = "HOKALAZA Key System"
+Title.TextColor3 = Color3.new(1, 1, 1)
+Title.TextSize = 18
+
+local KeyBox = Instance.new("TextBox")
+KeyBox.Parent = Frame
+KeyBox.Position = UDim2.new(0, 10, 0, 50)
+KeyBox.Size = UDim2.new(1, -20, 0, 30)
+KeyBox.PlaceholderText = "Enter Key Here (Get from Discord)"
+KeyBox.Font = Enum.Font.SourceSans
+KeyBox.TextColor3 = Color3.new(1, 1, 1)
+KeyBox.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+KeyBox.BorderSizePixel = 0
+KeyBox.TextSize = 14
+
+local UICorner2 = Instance.new("UICorner", KeyBox)
+UICorner2.CornerRadius = UDim.new(0, 6)
+
+local SubmitButton = Instance.new("TextButton")
+SubmitButton.Parent = Frame
+SubmitButton.Position = UDim2.new(0, 10, 0, 90)
+SubmitButton.Size = UDim2.new(1, -20, 0, 30)
+SubmitButton.Text = "Submit Key"
+SubmitButton.Font = Enum.Font.SourceSansBold
+SubmitButton.TextColor3 = Color3.new(1, 1, 1)
+SubmitButton.BackgroundColor3 = Color3.fromRGB(60, 100, 200)
+SubmitButton.BorderSizePixel = 0
+SubmitButton.TextSize = 16
+
+local UICorner3 = Instance.new("UICorner", SubmitButton)
+UICorner3.CornerRadius = UDim.new(0, 6)
+
+SubmitButton.MouseButton1Click:Connect(function()
+    if KeyBox.Text == KEY then
+        ScreenGui:Destroy()
+        -- ✅ Load the Main GUI Script (HOKALAZA)
+       if game.CoreGui:FindFirstChild("hokalaza") then
     game.CoreGui.hokalaza:Destroy()
 end
 
@@ -449,3 +512,14 @@ Features:
 - Mobile & PC Support
 - Cool GUI with Tabs
 ]]
+    else
+        SubmitButton.Text = "Incorrect Key!"
+        SubmitButton.BackgroundColor3 = Color3.fromRGB(255, 80, 80)
+        wait(1)
+        SubmitButton.Text = "Submit Key"
+        SubmitButton.BackgroundColor3 = Color3.fromRGB(60, 100, 200)
+    end
+end)
+
+-- Info to User
+print("[HOKALAZA] Join the Discord for key: " .. DiscordLink)
