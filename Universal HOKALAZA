@@ -1,67 +1,85 @@
-local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
+local player = Players.LocalPlayer
 
-local KEY = "crazyuniversal" -- Your Key
-local DiscordLink = "https://discord.gg/4myWDtW8yj" -- Discord
+-- Key System GUI
+local gui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
+gui.Name = "HOKALAZA_KeySystem"
+gui.ResetOnSpawn = false
 
-local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "KeySystem"
-ScreenGui.Parent = game:GetService("CoreGui")
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+local frame = Instance.new("Frame", gui)
+frame.Size = UDim2.new(0, 360, 0, 230)
+frame.Position = UDim2.new(0.5, 0, 0.5, 0)
+frame.AnchorPoint = Vector2.new(0.5, 0.5)
+frame.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
+frame.BorderSizePixel = 0
+Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 12)
 
-local Frame = Instance.new("Frame")
-Frame.Parent = ScreenGui
-Frame.Size = UDim2.new(0, 300, 0, 150)
-Frame.Position = UDim2.new(0.5, -150, 0.5, -75)
-Frame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-Frame.BorderSizePixel = 0
+-- Title
+local title = Instance.new("TextLabel", frame)
+title.Text = "🔐 Enter Key to Unlock Script"
+title.Size = UDim2.new(1, -20, 0, 40)
+title.Position = UDim2.new(0, 10, 0, 14)
+title.BackgroundTransparency = 1
+title.TextColor3 = Color3.fromRGB(0, 255, 200)
+title.Font = Enum.Font.GothamBlack
+title.TextSize = 20
 
-local UICorner = Instance.new("UICorner", Frame)
-UICorner.CornerRadius = UDim.new(0, 10)
+-- Input Box
+local input = Instance.new("TextBox", frame)
+input.PlaceholderText = "Enter key here..."
+input.Size = UDim2.new(1, -40, 0, 36)
+input.Position = UDim2.new(0, 20, 0, 68)
+input.BackgroundColor3 = Color3.fromRGB(40, 45, 60)
+input.TextColor3 = Color3.fromRGB(255, 255, 255)
+input.Font = Enum.Font.Gotham
+input.TextSize = 18
+input.ClearTextOnFocus = false
+Instance.new("UICorner", input).CornerRadius = UDim.new(0, 8)
 
-local Title = Instance.new("TextLabel")
-Title.Parent = Frame
-Title.Size = UDim2.new(1, 0, 0, 30)
-Title.BackgroundTransparency = 1
-Title.Font = Enum.Font.SourceSansBold
-Title.Text = "HOKALAZA Key System"
-Title.TextColor3 = Color3.new(1, 1, 1)
-Title.TextSize = 18
+-- Submit Button
+local submit = Instance.new("TextButton", frame)
+submit.Text = "Unlock"
+submit.Size = UDim2.new(1, -40, 0, 36)
+submit.Position = UDim2.new(0, 20, 0, 122)
+submit.BackgroundColor3 = Color3.fromRGB(0, 255, 200)
+submit.TextColor3 = Color3.fromRGB(18, 22, 28)
+submit.Font = Enum.Font.GothamBold
+submit.TextSize = 20
+Instance.new("UICorner", submit).CornerRadius = UDim.new(0, 8)
 
-local KeyBox = Instance.new("TextBox")
-KeyBox.Parent = Frame
-KeyBox.Position = UDim2.new(0, 10, 0, 50)
-KeyBox.Size = UDim2.new(1, -20, 0, 30)
-KeyBox.PlaceholderText = "Enter Key Here (Get from Discord)"
-KeyBox.Font = Enum.Font.SourceSans
-KeyBox.TextColor3 = Color3.new(1, 1, 1)
-KeyBox.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-KeyBox.BorderSizePixel = 0
-KeyBox.TextSize = 14
+-- Discord Copy Button
+local getKey = Instance.new("TextButton", frame)
+getKey.Text = "Get Key (Discord)"
+getKey.Size = UDim2.new(1, -40, 0, 32)
+getKey.Position = UDim2.new(0, 20, 0, 172)
+getKey.BackgroundColor3 = Color3.fromRGB(0, 175, 255)
+getKey.TextColor3 = Color3.fromRGB(0, 0, 0)
+getKey.Font = Enum.Font.GothamBold
+getKey.TextSize = 18
+Instance.new("UICorner", getKey).CornerRadius = UDim.new(0, 8)
 
-local UICorner2 = Instance.new("UICorner", KeyBox)
-UICorner2.CornerRadius = UDim.new(0, 6)
+-- Discord Link Copy Function
+local function CopyDiscord()
+    if setclipboard then
+        setclipboard("https://discord.gg/4myWDtW8yj")
+    elseif toclipboard then
+        toclipboard("https://discord.gg/4myWDtW8yj")
+    elseif syn and syn.clipboard then
+        syn.clipboard.set("https://discord.gg/4myWDtW8yj")
+    end
+    getKey.Text = "Link Copied!"
+    task.wait(1.4)
+    getKey.Text = "Get Key (Discord)"
+end
+getKey.MouseButton1Click:Connect(CopyDiscord)
 
-local SubmitButton = Instance.new("TextButton")
-SubmitButton.Parent = Frame
-SubmitButton.Position = UDim2.new(0, 10, 0, 90)
-SubmitButton.Size = UDim2.new(1, -20, 0, 30)
-SubmitButton.Text = "Submit Key"
-SubmitButton.Font = Enum.Font.SourceSansBold
-SubmitButton.TextColor3 = Color3.new(1, 1, 1)
-SubmitButton.BackgroundColor3 = Color3.fromRGB(60, 100, 200)
-SubmitButton.BorderSizePixel = 0
-SubmitButton.TextSize = 16
+-- Submit Logic (Key Check)
+submit.MouseButton1Click:Connect(function()
+    if input.Text == "crazyuniversal" then
+        gui:Destroy()
+       
 
-local UICorner3 = Instance.new("UICorner", SubmitButton)
-UICorner3.CornerRadius = UDim.new(0, 6)
-
-SubmitButton.MouseButton1Click:Connect(function()
-    if KeyBox.Text == KEY then
-        ScreenGui:Destroy()
-        -- ✅ Load the Main GUI Script (HOKALAZA)
-       if game.CoreGui:FindFirstChild("hokalaza") then
+if game.CoreGui:FindFirstChild("hokalaza") then
     game.CoreGui.hokalaza:Destroy()
 end
 
@@ -512,14 +530,10 @@ Features:
 - Mobile & PC Support
 - Cool GUI with Tabs
 ]]
+
     else
-        SubmitButton.Text = "Incorrect Key!"
-        SubmitButton.BackgroundColor3 = Color3.fromRGB(255, 80, 80)
-        wait(1)
-        SubmitButton.Text = "Submit Key"
-        SubmitButton.BackgroundColor3 = Color3.fromRGB(60, 100, 200)
+        submit.Text = "Invalid Key!"
+        task.wait(1.4)
+        submit.Text = "Unlock"
     end
 end)
-
--- Info to User
-print("[HOKALAZA] Join the Discord for key: " .. DiscordLink)
